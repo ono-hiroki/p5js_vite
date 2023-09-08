@@ -1,4 +1,4 @@
-let num = 1;
+let num = 50;
 let w, g;
 let colorPicker = ["#334C5A", "#1AB6B1", "#F8CE53", "#EA8D49", "#E44648"];
 let pg = [];
@@ -20,44 +20,15 @@ function draw() {
     // 一辺がg
     page[i] = createRandomGraphics(i, g);
   }
-  let harfG = g / 2;
-  let quarterG = g / 4;
 
+  let harfG = g / 2;
   for (let x = harfG; x <= w - harfG; x += g) {
     for (let y = harfG; y <= w - harfG; y += g) {
       push();
       translate(x, y);
-
-      let asw = int(1);
-      console.log(asw);
-      if (asw == 0) {
-        rotate(0);
-      }
-      if (asw == 1) {
-        rotate(90);
-      }
-      if (asw == 2) {
-        rotate(-90);
-      }
-      if (asw == 3) {
-        rotate(180);
-      }
-      
-      // if (int(random(2)) == 0) {
-      //   scale(-1, 1);
-      // }
-
-      let randomZeroToNum = int(random(num));
-      let leftTop = { x: 0, y: 0 };
-      let graqhicWidth = { width: g, height: g };
-      image(
-        page[randomZeroToNum],
-        leftTop.x,
-        leftTop.y,
-        graqhicWidth.x,
-        graqhicWidth.y
-      );
-      console.log(int(random(num)));
+      randomRotate(int(random(4)));
+      randomScaleReverse(int(random(2)));
+      randomImageDrow(pg, num, { x: 0, y: 0 }, { width: g, height: g });
       pop();
     }
   }
@@ -67,6 +38,4 @@ function keyPressed() {
   if (key == "s" || key == "S") saveCanvas(canvas, "myCanvas", "jpg");
 }
 
-const randomColorPicker = () => {
-  return colorPicker[int(random(colorPicker.length))];
-};
+

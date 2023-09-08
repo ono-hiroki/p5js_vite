@@ -1,4 +1,8 @@
-const createRandomGraphics = (i,graqhicWidth) => {
+const randomColorPicker = () => {
+  return colorPicker[int(random(colorPicker.length))];
+};
+
+const createRandomGraphics = (i, graqhicWidth) => {
   let pg;
   // 画面1/16の大きさのキャンバスを作成 一辺がgで1/4だから1/16
   pg = createGraphics(g, g);
@@ -24,9 +28,41 @@ const createRandomGraphics = (i,graqhicWidth) => {
   const quarter = graqhicWidth / 4;
   pg.line(-harf, harf, -quarter, quarter);
   pg.line(harf, -harf, quarter, -quarter);
-  
+
   // 中央に円を描く
   pg.circle(0, 0, g / 16);
 
   return pg;
 };
+
+const randomScaleReverse = (n) => {
+  if (n == 0) {
+    scale(-1, 1);
+  }
+};
+
+const randomRotate = (asw) => {
+  if (asw == 0) {
+    rotate(0);
+  }
+  if (asw == 1) {
+    rotate(90);
+  }
+  if (asw == 2) {
+    rotate(-90);
+  }
+  if (asw == 3) {
+    rotate(180);
+  }
+}
+
+const randomImageDrow = (pg, num ,leftTop, graqhicWidth) => {
+  let randomZeroToNum = int(random(num));
+  image(
+    page[randomZeroToNum],
+    leftTop.x,
+    leftTop.y,
+    graqhicWidth.x,
+    graqhicWidth.y
+  );
+}
