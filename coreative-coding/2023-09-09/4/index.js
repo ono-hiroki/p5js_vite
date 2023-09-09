@@ -1,6 +1,5 @@
 // 市松模様
 let w, g;
-let num = 50;
 let cp = ["#000", "#fff"];
 
 function setup() {
