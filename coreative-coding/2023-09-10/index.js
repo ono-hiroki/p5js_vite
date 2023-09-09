@@ -1,81 +1,116 @@
-/***********************************
- * dailycoding - 20230904 / graphic
- * by E.C.H (Eiichi Ishii)
- ***********************************/
-
 let w, g;
-// let cp = ["#00302C", "#00A968", "#E9474D"];
-// let cp = ['#1B2D69', '#E5B870', '#CA5B9D'];
-// let cp = ["#334C5A", "#1AB6B1", "#F8CE53", "#EA8D49", "#E44648"];
-let cp = ["#2E4481", "#8290C8", "#F2D7B6", "#EFAE4B", "#E46F3F"];
-// let cp = ["#2E4481", "#8290C8", "#8FD3F5"];
+let num = 10;
 
 function setup() {
-  w = min(windowWidth, windowHeight);
+	w = min(windowWidth, windowHeight);
   createCanvas(w, w);
-  strokeCap(SQUARE);
-  rectMode(CENTER);
+  angleMode(DEGREES);
+  textAlign(CENTER, CENTER);
+  textFont("Instrument Serif");
   noLoop();
-
-  g = w / 5;
+  g = w / 8;
 }
 
 function draw() {
-  background(255);
-  for (let x = g / 2; x <= w + g; x += g / 10) {
-    for (let y = -g; y <= w + g; y += g / 10) {
+  background(0);
+
+  for (let i = 0; i < num; i++) {
+    stroke(random(255));
+    strokeWeight(random(1, g / 2));
+    noFill();
+    ellipse(random(w), random(w), random(g, w), random(g, w));
+
+    push();
+    translate(0, random(w));
+    let mxt = random(g / 10, g);
+    for (let y = -w; y <= w; y += g) {
       push();
+      translate(0, y);
 
-      stroke(random(cp));
-      translate(x, y);
-      fill(random(cp));
-      rect(0, 0, g, g);
-      pop();
-    }
-  }
-
-  for (let x = g / 2; x <= w + g; x += g) {
-    let ady = random(-g, g);
-    for (let y = -g; y <= w + g; y += g) {
-      push();
-      translate(x, y + ady);
-
-      let [c1, c2] = randomomeTowColor();
-
-      fill(`${c1}ee`);
-      noStroke();
-      let rr = random([g * 0.91, g * 1.01]);
-      angleMode((mode = DEGREES));
-      rotate(random(1.1));
-      angleMode((mode = RADIANS));
-      rect(0, 0, rr, rr);
-
-      rotate(random(TAU));
-      scale(random([-1, 1]), 1);
-
-      let r = g * 0.4;
-      stroke(c2);
-      drawCircle({ x: 0, y: 0 }, r);
-      drawCircle({ x: 0, y: -g / 4 }, r);
-      drawCircle({ x: 0, y: g / 4 }, r);
-      drawCircle({ x: -g / 4, y: 0 }, r);
-      drawCircle({ x: g / 4, y: 0 }, r);
-
-      let nr = g;
-      fill(c2);
-      noStroke();
-      let pnum = int(random(1, 10)) * 10; // 1, 10, 20, ... 90
-      let mxer = random(1, g / 8); // 1 ~ g/8
-      for (let i = 0; i < pnum; i++) {
-        drowPoint(nr, mxer);
+      let tg = random(g / 10, mxt);
+      for (tx = 0; tx <= w; tx += tg) {
+        push();
+        translate(tx, random(-tg, tg));
+        rotate(random(-20, 20));
+        fill(random(255));
+        noStroke();
+        textSize(random(tg, tg * 2));
+        text(
+          char(
+            random([
+              int(random(49, 58)),
+              int(random(65, 75)),
+              int(random(97, 123)),
+            ])
+          ),
+          0,
+          0
+        );
+        pop();
       }
       pop();
     }
+    pop();
   }
+	
+	let rw = w/10;
+	rakkan(rw/2.5, w-rw/1.25, rw);
+}
+
+function rakkan(posx, posy, r) {
+  push();
+  translate(posx, posy);
+  let nr = r / 2.5;
+  let lr = r / 20;
+
+  fill("#e2041b");
+  noStroke();
+	rectMode(CENTER);
+  rect(0, 0, r / 1.4, r * 1.5, r / 5);
+
+  stroke(255);
+  strokeWeight(lr / 1.5);
+  noFill();
+
+  push();
+  translate(0, -nr);
+  beginShape();
+  vertex(nr / 2, -nr / 2);
+  vertex(0, -nr / 2);
+  vertex(-nr / 2, 0);
+  vertex(0, nr / 2);
+  vertex(nr / 2, nr / 2);
+  endShape();
+
+  line(-nr / 2, 0, nr / 2, 0);
+  pop();
+
+  push();
+  translate(0, 0);
+  beginShape();
+  vertex(nr / 2, -nr / 2);
+  vertex(0, -nr / 2);
+  vertex(-nr / 2, 0);
+  vertex(0, nr / 2);
+  vertex(nr / 2, nr / 2);
+  endShape();
+
+  strokeWeight(lr / 3);
+  line(nr / 2, -nr / 2, -nr / 2, nr / 2);
+  pop();
+
+  push();
+  translate(0, nr);
+  line(-nr / 2, -nr / 2, -nr / 2, nr / 2);
+  line(nr / 2, -nr / 2, nr / 2, nr / 2);
+  line(-nr / 2, 0, nr / 2, 0);
+
+  strokeWeight(lr / 3);
+  line(nr / 2, -nr / 2, -nr / 2, nr / 2);
+  pop();
+  pop();
 }
 
 function keyPressed() {
-  if (key == "s" || key == "S") saveCanvas(canvas, "myCanvas", "jpg");
-
-  // redraw();
+  redraw();
 }
