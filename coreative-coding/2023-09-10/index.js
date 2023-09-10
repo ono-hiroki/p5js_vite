@@ -1,68 +1,81 @@
 let w, g;
-let num = 10;
-let cp = ["#fff", "#000"];
-let display_char = [27578, 12377];
-// let display_char = [22909, 12365]
-function setup() {
-  console.log(unchar("殺"));
-  console.log(unchar("す"));
+// let cp = ['#fff','#ddcaaf','#f0ece8','#CFCED2','#A0A0A0','#6F6152'];
+// let cp = ['#a11f24','#CD9649','#6D743B','#522C59','#000','#D03952'];
+let cp = ["#F7CFE1", "#F5EA2E", "#CEDE93"];
 
+function setup() {
   w = min(windowWidth, windowHeight);
   createCanvas(w, w);
-  angleMode(DEGREES);
-  textAlign(CENTER, CENTER);
-  // textFont("Instrument Serif");
-  // textFont(loadFont("./mini-wakuwaku-maru.otf"),[console.log("font loaded")]);
+  // createCanvas(windowWidth, windowHeight);
   noLoop();
-  g = w / 8;
 }
 
 function draw() {
-  background(0);
+  background("black");
+  noFill();
+  stroke(randomColor());
+  strokeWeight(5);
 
-  // 行列をずらして描画
-  for (let i = 0; i < num; i++) {
-    push();
-    translate(0, random(w));
-    let mxt = random(g / 10, g);
+  angleMode(DEGREES);
 
-    //　行列を作成
-    for (let y = -w; y <= w; y += g) {
+  let rad = 60;
+  let padX = rad * cos(30) * 2; // 三角形の高さ
+  let padY = rad * sin(30) * 3; // 三角形の底辺
+  let rows = height / padY + 1; // 三角形の高さで割った数
+  let cols = width / padX + 1; // 三角形の底辺で割った数
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
       push();
-      translate(0, y);
-      let tg = random(g / 10, mxt);
+      let x = c * padX;
+      if(r % 2 == 1) x += padX / 2;
+      let y = r * padY;
+      translate(x, y);
 
-      for (tx = 0; tx <= w; tx += tg) {
-        push();
-        translate(tx, random(tg, tg));
-        rotate(random(-20, 20));
-        fill(random(255));
-        noStroke();
-        textSize(random(tg, tg * 2));
-        text(char(random([int(random(display_char))])), 0, 0);
-        pop();
+      if (c % 2 == 0) {
+        drawCubeA(0, 0, rad);
+      } else {
+        drawCubeB(0, 0, rad);
       }
-      pop();
+      pop()
     }
-    pop();
-
   }
-
-
-  // push();
-  // translate(w / 2, w / 2);
-  // let r = random(w / 2, w / 2);
-  // let c = random(cp);
-  // fill(c);
-  // noStroke();
-  // textSize(r);
-  // rotate(random(-20, 20));
-  // text(char(display_char[0]), 0 - r / 2, 0);
-  // text(char(display_char[1]), 0 + r / 2, 0);
-  // pop();
 }
 
+// 角度dの方向に半径rの菱形を描く関数
+function drawRhombus(x, y, r, d, c) {
+  fill(c);
+  beginShape();
+  vertex(x, y);
+  for (let i = 0; i < 3; i++) {
+    let pX = x + cos(d + i * 60 - 60) * r;
+    let pY = y + sin(d + i * 60 - 60) * r;
+    vertex(pX, pY);
+  }
+  endShape(CLOSE);
+}
+
+
+function drawCubeA(x, y, r) {
+  drawRhombus(x, y, r, 270, randomColor());
+  drawRhombus(x, y, r, 30, randomColor());
+  drawRhombus(x, y, r, 150, randomColor());
+}
+
+// 立方体Bを描く関数
+function drawCubeB(x, y, r) {
+  drawRhombus(x, y, r, 270, 255);
+  drawRhombus(x, y, r, 30, randomColor());
+  drawRhombus(x, y, r, 150, randomColor());
+  drawRhombus(x + cos(30) * r, y + sin(30) * r, r * 0.66, 210, randomColor());
+  drawRhombus(x + cos(30) * r, y + sin(30) * r, r * 0.33, 210, randomColor());
+  drawRhombus(x + cos(150) * r, y + sin(150) * r, r * 0.66, 330, randomColor());
+  drawRhombus(x + cos(150) * r, y + sin(150) * r, r * 0.33, 330, randomColor());
+}
+
+function randomColor() {
+  return cp[int(random(cp.length))];
+}
 function keyPressed() {
-  if (key == "s") saveCanvas("sketch-2023-09-10");
-  redraw();
+  if (key == "s" || key == "S") saveCanvas(canvas, "myCanvas", "jpg");
 }
