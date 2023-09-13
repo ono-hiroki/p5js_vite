@@ -1,4 +1,6 @@
-let palette = ['#072ac8', '#1e96fc', '#a2d6f9', '#fcf300', '#ffc600']
+let url = 'https://coolors.co/072ac8-1e96fc-a2d6f9-fcf300-ffc600';
+let palette = url.replace('https://coolors.co/', '').split('-').map(c => '#' + c);
+CONSOLE
 let num = 10;
 let size = 10;
 let step = size * 4;
@@ -7,9 +9,7 @@ let sizeArr = [];
 let vmin;
 
 function setup() {
-  w = min(windowWidth, windowHeight);
-  createCanvas(w, w, WEBGL);
-  background(palette[2]);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   ortho(-width / 2, width / 2, height / 2, -height / 2, 0, 2000);
   
   vmin = (width < height) ? width : height;
@@ -23,6 +23,7 @@ function setup() {
 }
 
 function draw() {
+  background(palette[2]);
   
   translate(0, -(100 / 600) * vmin, 0);
   rotateX(PI * 0.15);
