@@ -14,7 +14,7 @@ function makePigeon() {
 		line(vec3(0,0,0), vec3(0,0,0.75), 0.5)
 		popState()
 		sphere(0.7)
-		rotateZ(tilt)
+		// rotateZ(tilt)
 		line(vec3(0,0,0), vec3(0,-1,0), 0.4)
 		popState()
 		
@@ -22,7 +22,7 @@ function makePigeon() {
 		color(0.9, 0.9, 0.2)
 		// beak
 		pushState()
-		rotateZ(tilt)
+		// rotateZ(tilt)
 		setSpace(getSpace() * vec3(0.8, 1, 1))
 		line(vec3(0,-0.9,0), vec3(0,-0.9,-0.5), 0.1)
 		popState()
@@ -36,13 +36,13 @@ function makePigeon() {
 		
 		pushState()
 		// eyes
-		rotateZ(tilt)
+		// rotateZ(tilt)
 		mirrorX()
 		color(0, 0, 0)
 		displace(0.3, -1, -0.2)
 		let blink = 1/(0.1 + cos(PI * smoothstep(0.8, 1, fract(time * 0.25))))
 		blink *= 1/(0.1 + cos(PI * smoothstep(0.8, 1, fract(time * 0.4))))
-		setSpace(getSpace() * vec3(1, blink, 1))
+		// setSpace(getSpace() * vec3(1, blink, 1))
 		sphere(0.1)
 		popState()
 		
