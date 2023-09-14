@@ -16,22 +16,22 @@ function setup() {
 
 function draw() {
   // background(random(palette));
-  background("#023047")
+  background("#023047");
   push();
   drawingContext.shadowBlur = 50;
   drawingContext.shadowOffsetX = 10;
   strokeWeight(6);
   // stroke(random(palette));
-  stroke("#023047")
+  stroke("#023047");
   // fill(random(palette));
-  fill("#FB8500")
+  fill("#FB8500");
   drawingContext.setLineDash([1, 10]);
   // drawHeart(width / 2, height / 2, 10);
   // drawFlower(width / 2, height / 2, 100);
   // drawStar(width / 2, height / 2, 100, 5);
   // drawPolygon(width / 2, height / 2, 100, 6);
   // drawTwinkleStar(width / 2, height / 2, 100);
-  drawAstroid(width / 2, height / 2, 10, 10);
+  drawAstroid(width / 2, height / 2, 50, 4);
   // drawSakura(width / 2, height / 2, 100);
   // drawSakura2(width / 2, height / 2, 30);
   // drawLeaf(width / 4, height / 4, 30);
