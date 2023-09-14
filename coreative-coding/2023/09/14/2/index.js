@@ -42,6 +42,7 @@ function drawSakura4(ox, oy, or) {
     let r1 = theta * t1;
     let r2 = theta * t2;
 
+
     let b = (sin(r2) + cos(r2 * 2)) / 2.0;
     let a = b * h2 + 1.0;
     let x = or * a * sin(theta);
