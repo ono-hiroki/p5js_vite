@@ -1,0 +1,128 @@
+:root {
+    --gray: #f7f5f5;
+    --padding: 24px;
+    --base-color: #fcfcfc;
+    --primary-color: #62b2f7;
+    --text-color: #333333;
+}
+
+html,
+body {
+    background-color: var(--base-color);
+}
+
+body {
+    font-family: "游ゴシック Medium", YuGothic, YuGothicM,
+    "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--padding);
+    color: var(--text-color);
+    gap: var(--padding);
+}
+
+.material-symbols-outlined {
+    font-size: 20px;
+    margin-right: 6px;
+    color: var(--primary-color);
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    filter: sepia(10%);
+    object-fit: cover;
+}
+
+.global-header .brand-title {
+    font-family: "Concert One", cursive;
+    font-size: 40px;
+    text-align: center;
+}
+
+.global-header .brand-title b {
+    color: var(--primary-color);
+}
+
+.label {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.main {
+    padding-inline: var(--padding);
+}
+
+.card-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+.card-container {
+    display: grid;
+    /*gap: 40px;*/
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.card {
+    display: grid;
+    border-top: 2px solid var(--primary-color);
+    background-color: var(--gray);
+    grid-row: span 4; /* 自身の行を4つにする */
+    grid-template-rows: subgrid;
+    padding-block: 10px;
+    row-gap: 12px;
+}
+
+.card :is(.card-title, .description, .label) {
+    padding-inline: 12px;
+}
+
+.card .card-title {
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.5;
+    align-self: center;
+}
+
+.card .image {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+}
+
+.global-footer {
+    display: grid;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: #333333;
+    justify-items: center;
+}
+
+.global-footer address {
+    font-size: 12px;
+    font-style: normal;
+    padding-right: 16px;
+    text-align: right;
+}
+
+.no-support-browser {
+    display: none;
+}
+
+@supports not (grid-template-rows: subgrid) {
+    .no-support-browser {
+        display: block;
+        font-weight: bold;
+        color: #f429b4;
+        margin-bottom: 16px;
+        text-align: center;
+    }
+}
