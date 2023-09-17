@@ -1,119 +1,89 @@
-function circles(x, color, dir) {
-  push();
-  let pg;
-  pg = createGraphics(width, height);
-  pg.background(color);
-  pg.erase();
-  pg.push();
-  pg.circle(x, pg.height / 2, dir);
-  pg.pop();
-  pg.noErase();
-  drawingContext.filter = 'drop-shadow(4px 4px 8px rgba(46,46,46,0.8))';
-  image(pg, 0, 0);
-  pop();
-}
 
-let w, g;
-// let cp = ["#00302C", "#00A968", "#E9474D"];
-// let cp = ['#1B2D69', '#E5B870', '#CA5B9D'];
-// let cp = ["#334C5A", "#1AB6B1", "#F8CE53", "#EA8D49", "#E44648"];
+const sketch = function (_) {
+  let num = 8;
+  let switching = false;
+  let canvas;
 
-let url = "https://coolors.co/palette/001524-15616d-ffecd1-ff7d00-78290f";
-let c = url
-  .replace("https://coolors.co/", "")
-  .split("-")
-  .map((c) => "#" + c);
-// let cp = ["#2E4481", "#8290C8", "#8FD3F5"];
-let cp = ["#016A70", "#8290C8", "#FFFFDD", "#D2DE32"];
+  function lineShape(x, y, r, nw) {
+    for (let i = 0; i < _.width; i += 5) {
+      const h = _.random(5, 100);
+      const parin = _.noise(0.01 * i) * h;
+      const xx = i;
+      _.beginShape();
+      for (let j = 0; j < _.height; j += 10) {
+        const yy = j + parin;
 
-function setup() {
-  w = min(windowWidth, windowHeight);
-  createCanvas(w, w);
-  strokeCap(SQUARE);
-  rectMode(CENTER);
-  noLoop();
-
-  g = w / 5;
-}
-
-function draw() {
-  background(255);
-  for (let x = g / 2; x <= w + g; x += g / 10) {
-    for (let y = -g; y <= w + g; y += g / 10) {
-      push();
-      stroke(random(cp));
-      translate(x, y);
-      fill(random(cp));
-      rect(0, 0, g, g);
-      pop();
-    }
-  }
-
-  for (let x = g / 2; x <= w + g; x += g) {
-    let ady = random(-g, g);
-    for (let y = -g; y <= w + g; y += g) {
-      push();
-      translate(x, y + ady);
-
-      let [c1, c2] = randomomeTowColor();
-
-      fill(`${c1}ee`);
-      noStroke();
-      let rr = random([g * 0.91, g * 1.01]);
-      angleMode((mode = DEGREES));
-      rotate(random(1.1));
-      angleMode((mode = RADIANS));
-      rect(0, 0, rr, rr);
-
-      rotate(random(TAU));
-      scale(random([-1, 1]), 1);
-
-      let nr = g;
-      fill(c2);
-      noStroke();
-      let pnum = int(random(1, 10)) * 10; // 1, 10, 20, ... 90
-      let mxer = random(1, g / 8); // 1 ~ g/8
-      for (let i = 0; i < pnum; i++) {
-        drowPoint(nr, mxer);
-      }
-
-      push();
-      {
-        fill(random(cp));
-        let r = g * 0.4;
-        stroke(c2);
-        let switchNum = int(random(1, 5));
-        console.log(switchNum);
-        switch (switchNum) {
-          case 1:
-            drawSakura(0, 0, r);
-            break;
-          case 2:
-            drawSakura2(0, 0, r);
-            break;
-          case 3:
-            drawSakura3(0, 0, r);
-            break;
-          case 4:
-            drawSakura4(0, 0, r);
-            break;
+        const a = x - xx;
+        const b = y - yy;
+        const c = _.sqrt(a * a + b * b);
+        if (c <= r) {
+          _.vertex(xx, yy);
+          //_.point(xx, yy);
+        } else if (x < xx && y < yy && xx < x + nw && yy < y + nw) {
+          // ここの記述がミスってて円からはみ出してる
+          _.vertex(xx, yy);
+          //_.rect(xx, yy, 10, 10);
         }
-
-        //
       }
-      pop();
-
-      pop();
-
-      circles(width/2, 255, 200);
+      _.endShape(_.CLOSE);
     }
+    _.push();
+    _.circle(x, y, r * 2);
+    _.pop();
   }
 
-  // drawSakura4(width / 2, height / 2, g * 1.5);
-}
+  _.setup = function () {
+    canvas = _.createCanvas(600, 600);
+    _.background(220);
+    _.frameRate(24);
+    _.noFill();
+    _.strokeWeight(2);
 
-function keyPressed() {
-  if (key == "s" || key == "S") saveCanvas(canvas, "myCanvas", "jpg");
+    for (let i = 0; i < num; i++) {
+      for (let j = 0; j < num; j++) {
+        num-=0.1;
+        const x = _.width / num * i;
+        const y = _.height / num * j;
+        const circle_random = parseInt(_.random(0, 4));
+        if (circle_random === 0) {
+          _.circle(x + _.width / num / 2, y + _.height / num / 2, _.width / num);
+        } else if (circle_random === 1) {
+          _.push();
+          _.fill(0);
+          _.circle(x + _.width / num / 2, y + _.height / num / 2, _.width / num);
+          _.pop();
+        } else if (circle_random === 2) {
+          lineShape(x + _.width / num / 2, y + _.height / num / 2, _.width / num / 2, _.width / num);
+        } else {
+          _.rect(x, y, _.width / num, _.height / num);
+        }
+      }
+    }
 
-  // redraw();
-}
+  };
+
+  let count = 0;
+  _.draw = function () {
+    _.translate(_.width / 2, _.height / 2);
+    // _.background(0, 10);
+
+    if (count < 100 && !switching) {
+      count += 1;
+    } else if (count - 1 < 0) {
+      switching = false;
+      count += 1;
+    } else {
+      switching = true;
+      count -= 1;
+    }
+  };
+
+  _.keyPressed = function () {
+    if (_.key === 's') {
+      _.saveCanvas(canvas, 'myCanvas', 'png');
+      //_.saveGif('p5js_rotate', 4);
+    }
+  };
+};
+
+new p5(sketch);
